@@ -14,14 +14,11 @@
 #include <math.h>
 #include <err.h>
 
-static char	*program_name;
 static Display	*dpy;
 static Window	root;
 static int	screen;
 static Bool	verbose = False;
 static Bool	automatic = False;
-static Bool	grab_server = True; // TODO:Set to false (--nograb)
-static Bool	no_primary = False;
 static int	filter_type = -1;
 
 static const char *filter_names[2] = {
@@ -194,7 +191,7 @@ struct _output {
 static output_t	*all_outputs = NULL;
 static output_t	**all_outputs_tail = &all_outputs;
 static crtc_t	*crtcs;
-static int	num_crtcs, num_providers;
+static int	num_crtcs;
 static XRRScreenResources  *res;
 static int	minWidth, maxWidth, minHeight, maxHeight;
 
@@ -1004,8 +1001,7 @@ void ScreenInfo(void)
 	    crtc_t	    *cur_crtc = output->crtc_info;
 	    XRRCrtcInfo	    *crtc_info = cur_crtc ? cur_crtc->crtc_info : NULL;
 	    XRRModeInfo	    *cur_mode = output->mode_info;
-	    Atom	    *props;
-	    int		    j, nprop;
+	    int		    j;
 	    Bool	    *mode_shown;
 	    Rotation	    rotations = output_rotations (output);
 
