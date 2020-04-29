@@ -779,8 +779,6 @@ static void set_output_info(output_t *output, RROutput xid, XRROutputInfo *outpu
 	output->primary = output_is_primary(output);
 }
 
-
-
 static void get_crtcs(void)
 {
     int		c;
@@ -834,9 +832,6 @@ static void get_crtcs(void)
 	copy_transform (&crtcs[c].pending_transform, &crtcs[c].current_transform);
    }
 }
-
-
-
 
 /*
  * Use current output state to complete the output list
@@ -993,11 +988,6 @@ void ScreenInfo(void)
 							cur_mode->width, cur_mode->height, output->x,
 							output->y);
 				}
-	    }
-	    if (cur_mode)
-	    {
-		printf (" %dmm x %dmm",
-			(int)output_info->mm_width, (int)output_info->mm_height);
 	    }
 			printf ("\n");
 
