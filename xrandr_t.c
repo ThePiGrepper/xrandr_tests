@@ -1020,11 +1020,6 @@ void ScreenInfo(void)
 							cur_mode->width, cur_mode->height, output->x,
 							output->y);
 				}
-				if (output->rotation != RR_Rotate_0) {
-						printf (" %s", rotation_name(output->rotation));
-						if (output->rotation & (RR_Reflect_X|RR_Reflect_Y))
-							printf (" %s", reflection_name (output->rotation));
-				}
 	    }
 	    if (rotations != RR_Rotate_0)
 	    {
