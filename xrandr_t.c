@@ -1056,29 +1056,6 @@ void ScreenInfo(void)
 		printf (" %dmm x %dmm",
 			(int)output_info->mm_width, (int)output_info->mm_height);
 	    }
-
-	    if (cur_crtc && cur_crtc->panning_info &&
-		cur_crtc->panning_info->width > 0)
-	    {
-		XRRPanning *pan = cur_crtc->panning_info;
-		printf (" panning %dx%d+%d+%d",
-			pan->width, pan->height, pan->left, pan->top);
-		if ((pan->track_width    != 0 &&
-		     (pan->track_left    != pan->left		||
-		      pan->track_width   != pan->width		||
-		      pan->border_left   != 0			||
-		      pan->border_right  != 0))			||
-		    (pan->track_height   != 0 &&
-		     (pan->track_top     != pan->top		||
-		      pan->track_height  != pan->height		||
-		      pan->border_top    != 0			||
-		      pan->border_bottom != 0)))
-		    printf (" tracking %dx%d+%d+%d border %d/%d/%d/%d",
-			    pan->track_width,  pan->track_height,
-			    pan->track_left,   pan->track_top,
-			    pan->border_left,  pan->border_top,
-			    pan->border_right, pan->border_bottom);
-	    }
 			printf ("\n");
 
 			mode_shown = calloc (output_info->nmode, sizeof (Bool));
