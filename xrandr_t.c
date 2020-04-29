@@ -501,31 +501,6 @@ static Bool crtc_can_use_rotation(crtc_t *crtc, Rotation rotation)
     return False;
 }
 
-/*
- * Report only rotations that are supported by all crtcs
- */
-static Rotation output_rotations(output_t *output)
-{
-    Bool	    found = False;
-    Rotation	    rotation = RR_Rotate_0;
-    XRROutputInfo   *output_info = output->output_info;
-    int		    c;
-    
-    for (c = 0; c < output_info->ncrtc; c++)
-    {
-	crtc_t	*crtc = find_crtc_by_xid (output_info->crtcs[c]);
-	if (crtc)
-	{
-	    if (!found) {
-		rotation = crtc->crtc_info->rotations;
-		found = True;
-	    } else
-		rotation &= crtc->crtc_info->rotations;
-	}
-    }
-    return rotation;
-}
-
 static Bool output_can_use_rotation(output_t *output, Rotation rotation)
 {
     XRROutputInfo   *output_info = output->output_info;
@@ -955,7 +930,6 @@ void ScreenInfo(void)
 	char *display_name = NULL;
 	int event_base, error_base;
 	int major, minor;
-	int i;
 
 	dpy = XOpenDisplay (NULL);
 	if (dpy == NULL) {
@@ -1003,7 +977,6 @@ void ScreenInfo(void)
 	    XRRModeInfo	    *cur_mode = output->mode_info;
 	    int		    j;
 	    Bool	    *mode_shown;
-	    Rotation	    rotations = output_rotations (output);
 
 			printf("%s", output_info->name); //REMOVED connection[] lookup table.
 			//printf("%s %s", output_info->name, connection[output_info->connection]);
@@ -1021,31 +994,6 @@ void ScreenInfo(void)
 							output->y);
 				}
 	    }
-	    if (rotations != RR_Rotate_0)
-	    {
-		Bool    first = True;
-		printf (" (");
-		for (i = 0; i < 4; i ++) {
-		    if ((rotations >> i) & 1) {
-			if (!first) printf (" ");
-			printf("%s", direction[i]);
-			first = False;
-		    }
-		}
-		if (rotations & RR_Reflect_X)
-		{
-		    if (!first) printf (" ");
-		    printf ("x axis");
-		    first = False;
-		}
-		if (rotations & RR_Reflect_Y)
-		{
-		    if (!first) printf (" ");
-		    printf ("y axis");
-		}
-		printf (")");
-	    }
-
 	    if (cur_mode)
 	    {
 		printf (" %dmm x %dmm",
